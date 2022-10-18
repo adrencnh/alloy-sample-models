@@ -6,7 +6,7 @@ sig Val {}
 sig Node {
    leftChild : lone Node,
    rightChild : lone Node,
-   val : Val
+   val : one Val // all nodes have one value
 }
 
 sig BinTree {
@@ -30,10 +30,10 @@ fact Facts {
    Node in (BinTree.root).*(leftChild + rightChild)
    // left child iff right child
    all b : BinTree | all n : nodes[b] | some n.leftChild iff some n.rightChild
-   // children are different
+   // children are different; a node can't be both left and right child
    all b : BinTree | all n : nodes[b] | !isLeaf[n] => (n.leftChild != n.rightChild)
    // balanced
-   ll b : BinTree | # (b.root.leftChild).*(leftChild + rightChild) = # (b.root.rightChild).*(leftChild + rightChild)
+   all b : BinTree | # (b.root.leftChild).*(leftChild + rightChild) = # (b.root.rightChild).*(leftChild + rightChild)
 }
 
 pred show {
